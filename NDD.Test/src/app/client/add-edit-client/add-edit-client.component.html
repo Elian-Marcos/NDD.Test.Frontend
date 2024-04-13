@@ -3,40 +3,48 @@
   
       <div class="input-group mb-12">
         <div class="input-group mb-4">
-            <span class="input-group-text">Name</span>
-            <input type="text" class="form-control" [(ngModel)]="Client_Name" required>
+            <span class="input-group-text" *ngIf="client.Id == '0'" disabled="false">Name</span>
+            <span class="input-group-text" *ngIf="client.Id == '1'" disabled="true">Name</span>
+            <input type="text" class="form-control" [(ngModel)]="Name" *ngIf="client.Id == '0'" disabled="false"  required>
+            <input type="text" class="form-control" [(ngModel)]="Name" *ngIf="client.Id == '1'" disabled="true" required>
         </div>
         <div class="input-group mb-4">
-            <span class="input-group-text">CPF</span>
-            <input type="text" class="form-control" [(ngModel)]="Client_CPF" inputmode="numeric" mask="000.000.000-00" required>
+            <span class="input-group-text" *ngIf="client.Id == '0'"disabled="false">CPF</span>
+            <span class="input-group-text" *ngIf="client.Id == '1'" disabled="true">CPF</span>
+            <input type="text" class="form-control" [(ngModel)]="CPF" inputmode="numeric" mask="000.000.000-00" *ngIf="client.Id == '0'"  disabled="false" required>
+            <input type="text" class="form-control" [(ngModel)]="CPF" inputmode="numeric" mask="000.000.000-00" *ngIf="client.Id == '1'" disabled="true" required>
         </div>
         <div class="input-group mb-4">
-            <span class="input-group-text">Gender</span>
-            <input type="text" class="form-control" [(ngModel)]="Client_Gender" required>
+            <span class="input-group-text" *ngIf="client.Id == '0'" disabled="false">Gender</span>
+            <span class="input-group-text" *ngIf="client.Id == '1'" disabled="true">Gender</span>
+            <input type="text" class="form-control" [(ngModel)]="Gender" *ngIf="client.Id == '0'"  disabled="false" required>
+            <input type="text" class="form-control" [(ngModel)]="Gender" *ngIf="client.Id == '1'"  disabled="true" required>
         </div>
         <div class="input-group mb-4">
             <span class="input-group-text">Phone Number</span>
-            <input type="text" class="form-control" [(ngModel)]="Client_Phone_Number"  mask="(00) 00000-0000" prefix="+55 " type="tel" required>
+            <input type="text" class="form-control" [(ngModel)]="PhoneNumber"  mask="(00) 00000-0000" prefix="+55 " type="tel" required>
         </div>
         <div class="input-group mb-4">
             <span class="input-group-text">Email</span>
-            <input type="email" class="form-control" [(ngModel)]="Client_Email" maxlength="50" required >
+            <input type="email" class="form-control" [(ngModel)]="Email" maxlength="50" required >
         </div>
         <div class="input-group mb-4">
-            <span class="input-group-text">Birth Date</span>
-            <input type="text" class="form-control" [(ngModel)]="Client_Birth_Date"  inputmode="numeric" mask="00/00/0000" required>
+            <span class="input-group-text" *ngIf="client.Id == '0'" disabled="false">Birth Date</span>
+            <span class="input-group-text" *ngIf="client.Id == '1'" disabled="true">Birth Date</span>
+            <input type="text" class="form-control" [(ngModel)]="BirthDate"  inputmode="numeric" mask="00/00/0000" *ngIf="client.Id == '0'"  disabled="false" required>
+            <input type="text" class="form-control" [(ngModel)]="BirthDate"  inputmode="numeric" mask="00/00/0000" *ngIf="client.Id == '1'"  disabled="true" required>
         </div>
          <div class="input-group mb-4">
             <span class="input-group-text">Observation</span>
-            <input type="text" class="form-control" [(ngModel)]="Client_Observation">
+            <input type="text" class="form-control" [(ngModel)]="Observation">
         </div>
       </div>
     </div>
   </div>
-  <button (click)="addClient()" *ngIf="client.Client_Id == '0'" class="btn btn-primary">
+  <button (click)="addClient()" *ngIf="client.Id == '0'" class="btn btn-primary">
     Send
   </button>
   
-  <button (click)="updateClient()" *ngIf="client.Client_Id !='0'" class="btn btn-primary" >
+  <button (click)="updateClient()" *ngIf="client.Id !='0'" class="btn btn-primary" >
     Update
   </button>

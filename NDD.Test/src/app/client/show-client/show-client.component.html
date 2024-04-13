@@ -58,20 +58,19 @@
   </thead>
   <tbody>
     <tr *ngFor="let dataItem of ClientList">
-      <td>{{dataItem.Client_Name}}</td>
-      <td>{{dataItem.Client_CPF}</td>
-      <td>{{dataItem.Client_Gender}}</td>
-      <td>{{dataItem.Client_Phone_Number}}</td>
-      <td>{{dataItem.Client_Email}</td>
-      <td>{{dataItem.Client_Birth_Date}</td>
-      <td>{{dataItem.Client_Observation}}</td>
+      <td>{{dataItem.Name}}</td>
+      <td>{{dataItem.CPF}}</td>
+      <td>{{dataItem.Gender}}</td>
+      <td>{{dataItem.PhoneNumber}}</td>
+      <td>{{dataItem.Email}}</td>
+      <td>{{dataItem.BirthDate | date: 'dd/MM/yyyy'}}</td>
+      <td>{{dataItem.Observation}}</td>
       <td>
-        <button type="button" class="btn btn-light mr-1" data-bs-toggle="modal" data-bs-target="#exampleModal"
-          (click)="editClick(dataItem)" data-backdrop="static" data-keyboard="false">
-         
+        <button type="button" class="btn-edit" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="editClick(dataItem)" data-backdrop="static" data-keyboard="false">
+          <i class="fa fa-pencil"></i> Edit
         </button>
-        <button type="button" class="btn btn-light mr-1" (click)="deleteClick(dataItem)">
-        
+        <button type="button" class="btn-delete" (click)="deleteClick(dataItem)">
+          <i class="fa fa-trash"></i> Delete
         </button>
       </td>
     </tr>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiserviceService } from 'src/app/apiservice.service';
+import { DeleteClientRequest } from '../interface/DeleteClientRequest';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-show-client',
@@ -8,7 +10,7 @@ import { ApiserviceService } from 'src/app/apiservice.service';
 })
 export class ShowClientComponent implements OnInit{
 
-  constructor(private service: ApiserviceService){}
+  constructor(private service: ApiserviceService, private router: Router){}
 
   ClientList: any = [];
   ModalTitle = "";
@@ -29,8 +31,8 @@ export class ShowClientComponent implements OnInit{
 
   addClick() {
     this.client = {
-      Client_Id: "0",
-      Client_Name: ""
+      Id: "0",
+      Name: ""
     }
     this.ModalTitle = "Create Client ";
     this.ActivateAddEditClientComp = true;
@@ -42,16 +44,30 @@ export class ShowClientComponent implements OnInit{
     this.ActivateAddEditClientComp = true;
   }
 
-  deleteClick(item: any) {
+  deleteClick(item: DeleteClientRequest) {
     if (confirm('Are you sure??')) {
-      this.service.deleteClient(item.Client_Id).subscribe(data => {
-        alert(data.toString());
-      })
+      this.service.deleteClient(item).subscribe(data => {
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['']);
+        });
+      });
     }
   }
 
   getAllClient() {
     this.service.getAllClient().subscribe(data => {
+      data = data.map(d =>{
+        return{
+          Id: d.id,
+          Name: d.name,
+          Gender: d.gender,
+          CPF: d.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'),
+          PhoneNumber: d.phoneNumber,
+          Email: d.email,
+          BirthDate: d.birthDate,
+          Observation: d.observation
+        };
+      });
       this.ClientList = data;
     });
   }

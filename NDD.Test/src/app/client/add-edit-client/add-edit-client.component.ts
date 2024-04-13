@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter  } from '@angular/core';
 import { ApiserviceService } from 'src/app/apiservice.service';
 import { CreateClientRequest } from 'src/app/client/interface/CreateClientRequest';
-import { UpdateClientCommand } from 'src/app/client/interface/UpdateClientCommand';
-
+import { UpdateClientRequest } from 'src/app/client/interface/UpdateClientRequest';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-add-edit-client',
   templateUrl: './add-edit-client.component.html',
@@ -10,48 +10,51 @@ import { UpdateClientCommand } from 'src/app/client/interface/UpdateClientComman
 })
 export class AddEditClientComponent implements OnInit{
 
-  constructor(private service: ApiserviceService) { }
+  constructor(private service: ApiserviceService, private router: Router) { }
+
+  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
 
   @Input() client: any;
-  Client_Id = "";
-  Client_Name = "";
-  Client_CPF = "";
-  Client_Gender = "";
-  Client_Phone_Number = "";
-  Client_Email = "";
-  Client_Birth_Date = "";
-  Client_Observation = "";
+  Id = "";
+  Name = "";
+  CPF = "";
+  Gender = "";
+  PhoneNumber = "";
+  Email = "";
+  BirthDate = "";
+  Observation = "";
 
   ngOnInit(): void {
 
-    this.Client_Id = this.client.Client_Id;
-    this.Client_Name = this.client.Client_Name;
-    this.Client_CPF = this.client.Client_CPF;
-    this.Client_Gender = this.client.Client_Gender;
-    this.Client_Phone_Number = this.client.Client_Phone_Number;
-    this.Client_Email = this.client.Client_Email;
-    this.Client_Birth_Date = this.client.Client_Birth_Date;
-    this.Client_Observation = this.client.Client_Observation;
+    this.Id = this.client.Id;
+    this.Name = this.client.Name;
+    this.CPF = this.client.CPF;
+    this.Gender = this.client.Gender;
+    this.PhoneNumber = this.client.PhoneNumber;
+    this.Email = this.client.Email;
+    this.BirthDate = this.client.BirthDate;
+    this.Observation = this.client.Observation;
   }
 
   addClient() {
-    var date = this.Client_Birth_Date.substring(0, 2) + "/" + this.Client_Birth_Date.substring(2, 4) + "/" + this.Client_Birth_Date.substring(4);
+    var date = this.BirthDate.substring(0, 2) + "/" + this.BirthDate.substring(2, 4) + "/" + this.BirthDate.substring(4);
 
     var client : CreateClientRequest = {
-      Name: this.Client_Name,
-      CPF: this.Client_CPF,
-      Gender: this.Client_Gender,
-      PhoneNumber: this.Client_Phone_Number,
-      Email: this.Client_Email,
+      Name: this.Name,
+      CPF: this.CPF,
+      Gender: this.Gender,
+      PhoneNumber: this.PhoneNumber,
+      Email: this.Email,
       BirthDate: new Date(date),
-      Observation: this.Client_Observation,
+      Observation: this.Observation,
     };
     this.service.addClient(client).subscribe(
       res => {
-        if(res.status === 'success')
+        if(res != null)
           alert("Success!");
-        else
-          alert("Error: " + res.message)
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['']);
+        });
     },
     error => {
       alert("Error: " + error.message);
@@ -60,14 +63,23 @@ export class AddEditClientComponent implements OnInit{
   }
 
   updateClient() {
-    var client : UpdateClientCommand= {
-      Id: this.Client_Id,
-      PhoneNumber: this.Client_Phone_Number,
-      Email: this.Client_Email,
-      Observation: this.Client_Observation,
+    var client : UpdateClientRequest= {
+      Id: this.Id,
+      PhoneNumber: this.PhoneNumber,
+      Email: this.Email,
+      Observation: this.Observation,
     };
-    this.service.updateClient(client).subscribe(res => {
-      alert(res.toString());
-    });
+    this.service.updateClient(client).subscribe(
+      res => {
+        if(res != null)
+          alert("Success!");
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['client']);
+        });
+    },
+    error => {
+      alert("Error: " + error.message);
+    }
+  );
   }
 }
