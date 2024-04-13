@@ -1,0 +1,79 @@
+<button type="button" class="btn btn-primary m-2 float-end" data-bs-toggle="modal" data-bs-target="#exampleModal"
+  (click)="addClick()">
+  Add Client
+</button>
+
+<button type="button" class="btn btn-primary m-2 float-end"
+  (click)="getAllClient()">
+  Get All Clients
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ModalTitle}}</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" (click)="closeClick()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-add-edit-client [client]="client" *ngIf="ActivateAddEditClientComp">
+        </app-add-edit-client>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>
+         Name
+      </th>
+      <th>
+         CPF
+      </th>
+      <th>
+         Gender
+      </th>
+      <th>
+         Phone Number
+      </th>
+      <th>
+         E-mail
+      </th>
+      <th>
+         Birth Date
+      </th>
+      <th>
+         Observation
+      </th>
+      <th>
+        Actions
+     </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let dataItem of ClientList">
+      <td>{{dataItem.Client_Name}}</td>
+      <td>{{dataItem.Client_CPF}</td>
+      <td>{{dataItem.Client_Gender}}</td>
+      <td>{{dataItem.Client_Phone_Number}}</td>
+      <td>{{dataItem.Client_Email}</td>
+      <td>{{dataItem.Client_Birth_Date}</td>
+      <td>{{dataItem.Client_Observation}}</td>
+      <td>
+        <button type="button" class="btn btn-light mr-1" data-bs-toggle="modal" data-bs-target="#exampleModal"
+          (click)="editClick(dataItem)" data-backdrop="static" data-keyboard="false">
+         
+        </button>
+        <button type="button" class="btn btn-light mr-1" (click)="deleteClick(dataItem)">
+        
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
